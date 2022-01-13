@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <style>
+      body {
+        background: rgba(0, 0, 0, 1);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 100px;
+      }
+      * {
+        border: 0.1px solid grey;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>Test</div>
+    <div id="count">0</div>
+    <form>
+      <textarea
+        placeholder="Trigger an
+         interaction by writing something here"
+      >
+      </textarea>
+    </form>
+    <script>
+      // Javascripts
+      const alive = "alive";
+      const dead = "dead";
+      const tabId = Math.random();
+      siblingList = [];
+      channelId = "test_channel";
+      var bc = new BroadcastChannel(channelId);
+
+      // onload
+      bc.postMessage({ action: alive, tabId });
+      /* receive */
+      bc.onmessage = function (signal) {
+        console.log(signal);
+        const { data } = signal;
+        if (data.action === alive) {
+          siblingList.push(data.tabId);
+        }
+        if (data.action === dead) {
+          siblingList.filter((tabId) => tabId !== data.tabId);
+        }
+        count = siblingList.length;
+        document.getElementById("count").textContent = count;
+        console.log(siblingList);
+      };
+
+      window.addEventListener("beforeunload", function (e) {
+        // Cancel the event
+        e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+        // Chrome requires returnValue to be set
+        e.returnValue = "";
+      });
+    </script>
+  </body>
+</html>

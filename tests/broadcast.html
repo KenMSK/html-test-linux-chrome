@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <style>
+      body {
+        background: rgba(0, 0, 0, 1);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 100px;
+      }
+      * {
+        border: 0.1px solid grey;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>Test</div>
+    <div id="count">0</div>
+    <script>
+      // Javascripts
+      const born = "born"
+      const alive = "alive"
+      const dead = "dead"
+      const tabId = Math.floor(Math.random() * 1048576)
+      siblingSet = new Set()
+      channelId = "test_channel"
+      var bc = new BroadcastChannel(channelId)
+
+      // onload
+      bc.postMessage({ action: born, tabId })
+      /* receive */
+      bc.onmessage = function (signal) {
+        const { data } = signal
+        console.log(data)
+        if (data.action === born) {
+          siblingSet.add(data.tabId)
+          bc.postMessage({ action: alive, tabId })
+        }
+        if (data.action === alive) {
+          siblingSet.add(data.tabId)
+        }
+        if (data.action === dead) {
+          siblingSet.delete(data.tabId)
+        }
+
+        count = siblingSet.size
+        document.getElementById("count").textContent = count
+        console.log(siblingSet)
+      }
+
+      window.addEventListener("beforeunload", function (e) {
+        bc.postMessage({ action: dead, tabId })
+      })
+    </script>
+  </body>
+</html>

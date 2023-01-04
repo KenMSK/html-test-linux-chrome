@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<head>
+  <script>
+    window.onload = (e) => { console.log('DEBUG!!! Onload <960945>', { e }, '{}') };
+    window.onfocus = (e) => { console.log('DEBUG!!! On Another Focus <407426>', {}, '{}') };
+    window.onbeforeunload = (e) => { console.log('DEBUG!!! On before unload <202594>', { e }, '{}'); return "OMG!" };
+    window.onpagehide = (e) => { console.log('DEBUG!!! On Page Hide <334723>', { e }, '{}') };
+    window.onvisibilitychange = (e) => { console.log('DEBUG!!! on visiblity change <046305>', { e }, '{e}') }
+  </script>
+</head>
+
+<body>
+  All life cycle events should be logged. Hopefully
+  <input type="text" />
+</body>

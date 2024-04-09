@@ -8,7 +8,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Open cssHas.html",
-      "file": "/Users/ken/project/test/html-miscellaneous/tests/cssHas.html"
+      "file": "${file}"
     }
   ]
 }
